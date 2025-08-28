@@ -1,42 +1,34 @@
 package pjrSerializacao;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.util.ArrayList;
 
 public class PrincipalSerializacao {
-	public static void main(String[] args) {
-		Pessoa p = new Pessoa("Clara", 30, "99999");
-		try {
-			File f = new File("c:/a/");
-			if(!f.exists()) f.mkdir();
-			FileOutputStream arqOSer = new FileOutputStream("c:/a/clara.ser");
-			ObjectOutputStream oOSer = new ObjectOutputStream(arqOSer);
-			oOSer.writeObject(p);
-			oOSer.close();
-			System.out.println("---------------Antes de alterar idade-------------");
-			System.out.println(p);
-			p.setIdade(40);
-			System.out.println("---------------Depois de alterar idade-------------");
-			System.out.println(p);
-			FileInputStream arqISer = new FileInputStream("c:/a/clara.ser");
-			ObjectInputStream iOSer = new ObjectInputStream(arqISer);
-			p = (Pessoa) iOSer.readObject();
-			iOSer.close();
-			System.out.println("---------------Depois de recuperar os valores-------------");
-			System.out.println(p);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
+    public static void main(String[] args) {
+        try {
+            
+            ArrayList<Pessoa> pessoas = new ArrayList<>();
+            pessoas.add(new Pessoa("Clara", 30, "99999"));
+            pessoas.add(new Pessoa("João", 25, "88888"));
+            pessoas.add(new Pessoa("Maria", 40, "77777"));
+            String caminho = "pessoas.ser";
+
+            ObjectOutputStream objOS = new ObjectOutputStream(new FileOutputStream(caminho));
+            objOS.writeObject(pessoas);
+            objOS.close();
+            System.out.println("Objetos serializados com sucesso em " + caminho);
+
+            ObjectInputStream objIS = new ObjectInputStream(new FileInputStream(caminho));
+            ArrayList<Pessoa> pessoasLidas = (ArrayList<Pessoa>) objIS.readObject();
+            objIS.close();
+
+            System.out.println("\nObjetos desserializados:");
+            for (Pessoa p : pessoasLidas) {
+                System.out.println(p);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
-
-
