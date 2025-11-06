@@ -3,54 +3,35 @@ package model;
 public class Contato {
     private String nome;
     private String telefone;
+    private String email;
 
-    public Contato(String nome, String telefone) {
+    public Contato(String nome, String telefone, String email) {
         this.nome = nome;
         this.telefone = telefone;
+        this.email = email;
     }
 
     public String getNome() {
         return nome;
     }
+    public String getTelefone() {
+        return telefone;
+    }
+    public String getEmail() {
+        return email;
+    }
 
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-    
-    @Override
-    public String toString() {
-        return String.format("Nome: %-15s | Telefone: %s", nome, telefone);
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String toFileString() {
-        return nome + ";" + telefone;
-    }
-    
-    public static Contato fileToString (String line) throws Exception,IllegalArgumentException{
-        String[] dados = line.split(";");
-
-        if(dados.length != 2){
-
-            throw new IllegalArgumentException("Linha de dados inválida para criação de Contato: " + line);
-        }
-
-        try{
-            String nome = dados[0];
-            String telefone = dados[1];
-
-
-            return new Contato(nome,telefone);
-        } catch (Exception e) {
-            throw new Exception("Erro ao criar contato", e);
-        }
-        
+    public void listarContato() {
+        System.out.println("Nome: " + nome + ", Telefone: " + telefone + ", Email: " + email);
     }
 }
